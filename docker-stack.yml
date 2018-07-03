@@ -1,0 +1,20 @@
+version: '3'
+services:
+  hello-service:
+    image: hello-service:1.0
+    deploy:
+      replicas: 2
+      placement:
+        constraints:
+          - node.labels.dev == tsa.dev
+          - node.role != manager
+    volumes:
+      - hello-logs:/log
+    environment:
+      - "SPRING_PROFILES_ACTIVE=dev"
+      - "SERVER.PORT=44444"
+    ports:
+      - "44444:44444"
+volumes:
+  hello-logs:
+
